@@ -12,7 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAuthenticationSucessHandler authenticationSucessHandler;
-
+    @Autowired
+    private MyAuthenticationFailureHandler authenticationFailureHandler;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,6 +37,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSucessHandler) // 处理登录成功
+                .failureHandler(authenticationFailureHandler) // 处理登录失败
                 .and()
                 .authorizeRequests() // 授权配置
                 .antMatchers("/authentication/require", "/login.html").permitAll()
